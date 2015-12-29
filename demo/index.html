@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+
+
+
+
+
+
+
+</head>
+
+<body class="body">
+    <input onChange="handleFiles(this.files)" type='file'> Open Weave File
+    </input>
+    <script type="text/javascript" src="../bower_components/WeaveCoreJS/build/weavecore.js"></script>
+    <script type="text/javascript" src="../bower_components/jszip/dist/jszip.js"></script>
+    <script type="text/javascript" src="../bower_components/FileSaver.js/FileSaver.js"></script>
+
+
+    <script type="text/javascript" src="../bower_components/JSAMF/web/web/amf.js"></script>
+    <script type="text/javascript" src="../src/Archive.js"></script>
+
+    <script type="text/javascript">
+        var ln = WeaveAPI.globalHashMap.requestObject('ln', weavecore.LinkableNumber);
+        ln.value = 1677725;
+
+        function saveLocal() {
+            window.saveAs(Archive.createFileContent(), "test.zip");
+        }
+
+        function handleFiles(files) {
+            Archive.openFile(files);
+
+        }
+    </script>
+</body>
+
+</html>

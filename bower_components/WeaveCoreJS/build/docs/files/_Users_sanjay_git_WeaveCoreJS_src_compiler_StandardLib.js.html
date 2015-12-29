@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>/Users/sanjay/git/WeaveCoreJS/src/compiler/StandardLib.js - weavecore</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+
+                <h1><img src="../assets/css/logo.png" title="weavecore"></h1>
+
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+
+                <li><a href="../classes/CallbackCollection.html">CallbackCollection</a></li>
+
+                <li><a href="../classes/CallbackEntry.html">CallbackEntry</a></li>
+
+                <li><a href="../classes/ChildListCallbackInterface.html">ChildListCallbackInterface</a></li>
+
+                <li><a href="../classes/DynamicState.html">DynamicState</a></li>
+
+                <li><a href="../classes/Event.html">Event</a></li>
+
+                <li><a href="../classes/EventDispatcher.html">EventDispatcher</a></li>
+
+                <li><a href="../classes/GroupedCallbackEntry.html">GroupedCallbackEntry</a></li>
+
+                <li><a href="../classes/ILinkableObject.html">ILinkableObject</a></li>
+
+                <li><a href="../classes/LinkableDynamicObject.html">LinkableDynamicObject</a></li>
+
+                <li><a href="../classes/LinkableHashMap.html">LinkableHashMap</a></li>
+
+                <li><a href="../classes/LinkablePromise.html">LinkablePromise</a></li>
+
+                <li><a href="../classes/LinkableWatcher.html">LinkableWatcher</a></li>
+
+                <li><a href="../classes/SessionManager.html">SessionManager</a></li>
+
+                <li><a href="../classes/Ticker.html">Ticker</a></li>
+
+                <li><a href="../classes/weave.WeavePath.html">weave.WeavePath</a></li>
+
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+
+                <li><a href="../modules/CreateJS.html">CreateJS</a></li>
+
+                <li><a href="../modules/WeaveAPI.html">WeaveAPI</a></li>
+
+                <li><a href="../modules/weavecore.html">weavecore</a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: /Users/sanjay/git/WeaveCoreJS/src/compiler/StandardLib.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*
+    Weave (Web-based Analysis and Visualization Environment)
+    Copyright (C) 2008-2011 University of Massachusetts Lowell
+    This file is a part of Weave.
+    Weave is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, Version 3,
+    as published by the Free Software Foundation.
+    Weave is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Weave.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+*/
+
+// namespace
+if (typeof window === &#x27;undefined&#x27;) {
+    this.weavecore = this.weavecore || {};
+} else {
+    window.weavecore = window.weavecore || {};
+}
+
+
+/**
+ * This provides a set of useful static functions.
+ * All the functions defined in this class are pure functions,
+ * meaning they always return the same result with the same arguments, and they have no side-effects.
+ *
+ * @author adufilie
+ * @author sanbalag
+ */
+(function () {
+    &quot;use strict&quot;;
+
+    //constructor
+    function StandardLib() {
+        throw &quot;StandardLib cannot be instantiated.&quot;;
+    }
+
+    /**
+     * This compares two dynamic objects or primitive values and is much faster than ObjectUtil.compare().
+     * Does not check for circular refrences.
+     * @param a First dynamic object or primitive value.
+     * @param b Second dynamic object or primitive value.
+     * @return A value of zero if the two objects are equal, nonzero if not equal.
+     */
+    StandardLib.compare = function (a, b, objectCompare) {
+        objectCompare = (objectCompare === undefined ? null : objectCompare);
+        var c;
+        var ObjectUtil = weavecore.ObjectUtil;
+        if (a === b)
+            return 0;
+        if (a === null || a === undefined)
+            return 1;
+        if (b === null || b === undefined)
+            return -1;
+        var typeA = typeof (a);
+        var typeB = typeof (b);
+        if (typeA !== typeB)
+            return weavecore.ObjectUtil.stringCompare(typeA, typeB);
+        if (typeA === &#x27;boolean&#x27;)
+            return weavecore.ObjectUtil.numericCompare(Number(a), Number(b));
+        if (typeA === &#x27;number&#x27;)
+            return weavecore.ObjectUtil.numericCompare(a, b);
+        if (typeA === &#x27;string&#x27;)
+            return weavecore.ObjectUtil.stringCompare(a, b);
+
+        if (typeA !== &#x27;object&#x27;)
+            return 1;
+
+        if (a instanceof Date &amp;&amp; b instanceof Date)
+            return weavecore.ObjectUtil.dateCompare(a, b);
+
+        if (a.constructor === Array &amp;&amp; b.constructor === Array) {
+            var an = a.length;
+            var bn = b.length;
+            if (an &lt; bn)
+                return -1;
+            if (an &gt; bn)
+                return 1;
+            for (var i = 0; i &lt; an; i++) {
+                c = StandardLib.compare(a[i], b[i]);
+                if (c !== 0)
+                    return c;
+            }
+            return 0;
+        }
+
+        if (objectCompare !== null) {
+            var result = objectCompare(a, b);
+            if (isFinite(result))
+                return result;
+        }
+
+        var qna = a.constructor.name;
+        var qnb = b.constructor.name;
+
+        if (qna != qnb)
+            return weavecore.ObjectUtil.stringCompare(qna, qnb);
+
+        var p;
+
+        // test if objects are dynamic
+        try {
+            a[&#x27;&#x27;];
+            b[&#x27;&#x27;];
+        } catch (e) {
+            return 1; // not dynamic objects
+        }
+
+        // if there are properties in a not found in b, return -1
+        for (p in a) {
+            if (!b.hasOwnProperty(p))
+                return -1;
+        }
+        for (p in b) {
+            // if there are properties in b not found in a, return 1
+            if (!a.hasOwnProperty(p))
+                return 1;
+
+            c = StandardLib.compare(a[p], b[p]);
+            if (c !== 0)
+                return c;
+        }
+
+        return 0;
+    };
+
+    /**
+     * This function will cast a value of any type to a Number,
+     * interpreting the empty string (&quot;&quot;) and null as NaN.
+     * @param value A value to cast to a Number.
+     * @return The value cast to a Number, or NaN if the casting failed.
+     */
+    StandardLib.asNumber = function (value) {
+        if (value === null || value === undefined)
+            return NaN; // return NaN because Number(null) == 0
+
+        if (value.constructor === Number || value instanceof Date)
+            return value;
+
+        try {
+            value = String(value);
+            if (value === &#x27;&#x27;)
+                return NaN; // return NaN because Number(&#x27;&#x27;) == 0
+            return Number(value);
+        } catch (e) {}
+
+        return NaN;
+    }
+
+    /**
+     * This function attempts to derive a boolean value from different types of objects.
+     * @param value An object to parse as a Boolean.
+     */
+    StandardLib.asBoolean = function (value) {
+        if (value.constructor === Boolean)
+            return value;
+        if (value.constructor === String)
+            return weavecore.ObjectUtil.stringCompare(value, &quot;true&quot;, true) === 0;
+        if (isNaN(value))
+            return false;
+        if (value.constructor === Number)
+            return value != 0;
+        return value;
+    }
+
+    /**
+     * Converts a value to a non-null String
+     * @param value A value to cast to a String.
+     * @return The value cast to a String.
+     */
+    StandardLib.asString = function (value) {
+        if (value === null || value === undefined)
+            return &#x27;&#x27;;
+        try {
+            return value;
+        } catch (e) {}
+        return &#x27;&#x27;;
+    }
+
+
+    /**
+     * Tests if a value is anything other than undefined, null, or NaN.
+     */
+    StandardLib.isDefined = function (value) {
+        return value !== undefined &amp;&amp; value !== null &amp;&amp; !(value.constructor === Number &amp;&amp; isNaN(value));
+    }
+
+    /**
+     * Tests if a value is undefined, null, or NaN.
+     */
+    StandardLib.isUndefined = function (value) {
+        return value === undefined || value === null || (value.constructor === Number &amp;&amp; isNaN(value));
+    }
+
+
+    /**
+     * Checks if all items in an Array are instances of a given type.
+     * @param a An Array of items to test
+     * @param type A type to check for
+     * @return true if each item in the Array is an object of the given type.
+     */
+    StandardLib.arrayIsType = function (arr, type) {
+        for (var i = 0; i &lt; arr.length; i++) {
+            var item = arr[i];
+            if (!(item instanceof type || item.constructor === type))
+                return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Pads a string on the left.
+     */
+    StandardLib.lpad = function (str, length, padString) {
+        padString = (padString === undefined) ? &#x27; &#x27; : padString;
+        if (str.length &gt;= length)
+            return str;
+        while (str.length + padString.length &lt; length)
+            padString += padString;
+        return padString.substr(0, length - str.length) + str;
+    }
+
+    /**
+     * Pads a string on the right.
+     */
+    StandardLib.rpad = function (str, length, padString) {
+        padString = (padString === undefined) ? &#x27; &#x27; : padString;
+        if (str.length &gt;= length)
+            return str;
+        while (str.length + padString.length &lt; length)
+            padString += padString;
+        return str + padString.substr(0, length - str.length);
+    }
+
+
+    /**
+     * This function will use a default NumberFormatter object to format a Number to a String.
+     * @param number The number to format.
+     * @param precision A precision value to pass to the default NumberFormatter.
+     * @return The result of format(number) using the specified precision value.
+     * @see mx.formatters.NumberFormatter#format
+     */
+    StandardLib.formatNumber = function (number, precision) {
+            precision = (precision === undefined) ? NaN : precision;
+            if (isFinite(precision)) {
+                precision = parseInt(precision);
+            } else {
+                number = StandardLib.roundSignificant(number);
+                if (Math.abs(number) &lt; 1)
+                    return String(number); // this fixes the bug where &quot;0.1&quot; gets converted to &quot;.1&quot; (we don&#x27;t want the &quot;0&quot; to be lost)
+                precision = -1;
+            }
+
+            //StandardLib._numberFormatter.format(number)
+            return number.toPrecision(precision);
+        }
+        /**
+         * This is the default NumberFormatter to use inside the formatNumber() function.
+         */
+    StandardLib._numberFormatter = new Intl.NumberFormat();
+
+    /**
+     * This rounds a Number to a given number of significant digits.
+     * @param value A value to round.
+     * @param significantDigits The desired number of significant digits in the result.
+     * @return The number, rounded to the specified number of significant digits.
+     */
+    StandardLib.roundSignificant = function (value, significantDigits) {
+        significantDigits = (significantDigits === undefined) ? 14 : significantDigits;
+        // it doesn&#x27;t make sense to round infinity or NaN
+        if (!isFinite(value))
+            return value;
+
+        var sign = (value &lt; 0) ? -1 : 1;
+        var absValue = Math.abs(value);
+        var pow10;
+
+        // if absValue is less than 1, all digits after the decimal point are significant
+        if (absValue &lt; 1) {
+            pow10 = Math.pow(10, significantDigits);
+            //trace(&quot;absValue&lt;1: Math.round(&quot;,absValue,&quot;*&quot;,pow10,&quot;)&quot;,Math.round(absValue * pow10));
+            return sign * Math.round(absValue * pow10) / pow10;
+        }
+
+        var log10 = Math.ceil(Math.log(absValue) / Math.LN10);
+
+        // Both these calculations are equivalent mathematically, but if we use
+        // the wrong one we get bad rounding results like &quot;123.456000000001&quot;.
+        if (log10 &lt; significantDigits) {
+            // find the power of 10 that you need to MULTIPLY absValue by
+            // so Math.round() will round off the digits we don&#x27;t want
+            pow10 = Math.pow(10, significantDigits - log10);
+            return sign * Math.round(absValue * pow10) / pow10;
+        } else {
+            // find the power of 10 that you need to DIVIDE absValue by
+            // so Math.round() will round off the digits we don&#x27;t want
+            pow10 = Math.pow(10, log10 - significantDigits);
+            //trace(&quot;log10&gt;significantDigits: Math.round(&quot;,absValue,&quot;/&quot;,pow10,&quot;)&quot;,Math.round(absValue / pow10));
+            return sign * Math.round(absValue / pow10) * pow10;
+        }
+    }
+
+    /**
+     * This uses AsyncSort.sortImmediately() to sort an Array (or Vector) in place.
+     * @param array An Array (or Vector) to sort.
+     * @param compare A function that accepts two items and returns -1, 0, or 1.
+     * @see weave.utils.AsyncSort#sortImmediately()
+     * @see Array#sort()
+     */
+    StandardLib.sort = function (array, compare) {
+        compare = (compare === undefined) ? null : compare;
+        weavecore.AsyncSort.sortImmediately(array, compare);
+    }
+
+    Object.defineProperty(StandardLib, &#x27;_sortBuffer&#x27;, {
+        value: []
+    });
+
+    function numericSort(a, b, sortDirection) {
+        return a - b;
+    }
+
+    function nonASCIISort(a, b, sortDirection) {
+        return a.localeCompare(b);
+    }
+
+    function dateSort(date1, date2, sortDirection) {
+        // This is a comparison function that will result in dates being sorted in
+        // ASCENDING order.
+        if (date1 &gt; date2) return 1;
+        if (date1 &lt; date2) return -1;
+        return 0;
+    };
+
+
+
+
+
+    /**
+     * Sorts an Array (or Vector) of items in place using properties, lookup tables, or replacer functions.
+     * @param array An Array (or Vector) to sort.
+     * @param params Specifies how to get values used to sort items in the array.
+     *               This can either be an Array of params or a single param, each of which can be one of the following:&lt;br&gt;
+     *               Array or Vector: values are looked up based on index (Such an Array must be nested in a params array rather than given alone as a single param)&lt;br&gt;
+     *               Object or Dictionary: values are looked up using items in the array as keys&lt;br&gt;
+     *               Property name: values are taken from items in the array using a property name&lt;br&gt;
+     *               Replacer function: array items are passed through this function to get values&lt;br&gt;
+     * @param sortDirections Specifies sort direction(s) (1 or -1) corresponding to the params.
+     * @param inPlace Set this to true to modify the original Array (or Vector) in place or false to return a new, sorted copy.
+     * @param returnSortedIndexArray Set this to true to return a new Array of sorted indices.
+     * @return Either the original Array (or Vector) or a new one.
+     *
+     */
+    StandardLib.sortOn = function (array, params, sortDirections, inPlace, returnSortedIndexArray) {
+        inPlace = (inPlace === undefined) ? true : inPlace;
+        returnSortedIndexArray = (returnSortedIndexArray === undefined) ? false : returnSortedIndexArray;
+
+        if (array.length === 0)
+            return inPlace ? array : [];
+
+        var values;
+        var param;
+        var sortDirection;
+        var i;
+
+        // expand _sortBuffer as necessary
+        for (i = StandardLib._sortBuffer.length; i &lt; array.length; i++)
+            StandardLib._sortBuffer[i] = [];
+
+        // If there is only one param, wrap it in an array.
+        // Array.sortOn() is preferred over Array.sort() in this case
+        // since an undefined value will crash Array.sort(Array.NUMERIC).
+        if (params === array || !(params.constructor === Array)) {
+            params = [params];
+            if (sortDirections)
+                sortDirections = [sortDirections];
+        }
+
+        var fields = new Array();
+        fields.length = params.length;
+        var fieldOptions = new Array();
+        fieldOptions.length = params.length;
+        for (var p = 0; p &lt; params.length; p++) {
+            param = params[p];
+            sortDirection = sortDirections &amp;&amp; sortDirections[p] &lt; 0 ? Array.DESCENDING : 0;
+
+            i = array.length;
+            if (param.constructor === Array)
+                while (i--)
+                    StandardLib._sortBuffer[i][p] = param[i];
+            else if (param.constructor === Function)
+                while (i--)
+                    StandardLib._sortBuffer[i][p] = param(array[i]);
+            else if (typeof param === &#x27;object&#x27;)
+                while (i--)
+                    StandardLib._sortBuffer[i][p] = param[array[i]];
+            else
+                while (i--)
+                    StandardLib._sortBuffer[i][p] = array[i][param];
+
+            fields[p] = p;
+            fieldOptions[p] = Array.RETURNINDEXEDARRAY | StandardLib.guessSortMode(StandardLib._sortBuffer, p) | sortDirection;
+        }
+
+        values = StandardLib._sortBuffer.slice(0, array.length);
+        values = values.sortOn(fields, fieldOptions);
+
+        if (returnSortedIndexArray)
+            return values;
+
+        var array2 = new Array();
+        array2.length = array.length
+        i = array.length;
+        while (i--)
+            array2[i] = array[values[i]];
+
+        if (!inPlace)
+            return array2;
+
+        i = array.length;
+        while (i--)
+            array[i] = array2[i];
+        return array;
+    }
+
+    /**
+     * Guesses the appropriate Array.sort() mode based on the first non-undefined item property from an Array.
+     * @return Either Array.NUMERIC or 0.
+     */
+    StandardLib.guessSortMode = function (array, itemProp) {
+        var props = Object.keys(array);
+        for (var i = 0; i &lt; props.length; i++) {
+            var item = array[props[i]];
+            var value = item[itemProp];
+            if (value !== undefined)
+                return value.constructor === Number || value.constructor === Date ? Array.NUMERIC : 0;
+        }
+        return 0;
+    }
+
+    //testRoundSignificant();
+    StandardLib.testRoundSignificant = function () {
+        for (var pow = -5; pow &lt;= 5; pow++) {
+            var n = 1234.5678 * Math.pow(10, pow);
+            for (var d = 0; d &lt;= 9; d++)
+                console.log(&#x27;roundSignificant(&#x27;, n, &#x27;,&#x27;, d, &#x27;) =&#x27;, StandardLib.roundSignificant(n, d));
+        }
+    }
+
+    /**
+     * @see https://github.com/bestiejs/punycode.js
+     */
+    StandardLib.ucs2encode = function (value) {
+        var output = &#x27;&#x27;;
+        if (value &gt; 0xFFFF) {
+            value -= 0x10000;
+            output += String.fromCharCode(value &gt;&gt;&gt; 10 &amp; 0x3FF | 0xD800);
+            value = 0xDC00 | value &amp; 0x3FF;
+        }
+        return output + String.fromCharCode(value);
+    }
+
+    StandardLib.argRef = new RegExp(&quot;^(0|[1-9][0-9]*)\}&quot;);
+
+    /**
+     * Substitutes &quot;{n}&quot; tokens within the specified string with the respective arguments passed in.
+     * Same syntax as StringUtil.substitute() without the side-effects of using String.replace() with a regex.
+     * @see String#replace()
+     * @see mx.utils.StringUtil#substitute()
+     */
+    StandardLib.substitute = function (format) {
+        var args = Array.prototype.slice.call(arguments);
+        format = args.shift();
+        if (args.length === 1 &amp;&amp; args[0])
+            args = args[0];
+
+        var split = format.split(&#x27;{&#x27;)
+        var output = split[0];
+        for (var i = 1; i &lt; split.length; i++) {
+            var str = split[i];
+            if (StandardLib.argRef.test(str)) {
+                var j = str.indexOf(&quot;}&quot;);
+                output += args[str.substring(0, j)];
+                output += str.substring(j + 1);
+            } else
+                output += &quot;{&quot; + str;
+        }
+        return output;
+    }
+
+
+
+    weavecore.StandardLib = StandardLib;
+}());
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

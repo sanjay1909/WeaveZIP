@@ -1,0 +1,14 @@
+{
+  "name": "JSAMF",
+  "homepage": "https://github.com/jamesward/JSAMF",
+  "_release": "70ae3e1fdc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "70ae3e1fdcdf29c1b4e4e7fb80fb1dbf483cd53b"
+  },
+  "_source": "https://github.com/jamesward/JSAMF.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/jamesward/JSAMF.git",
+  "_direct": true
+}
